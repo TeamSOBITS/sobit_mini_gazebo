@@ -111,7 +111,7 @@ SOBITSが開発した双腕型モバイルマニピュレータ（SOBIT MINI）�
    ```
 
 > [!NOTE]
-> SOBIT MINIの動作方法になれるため，[example](sobit_mini_library/example/)フォルダを確認し，それぞれのサンプルファイルから[動作関数](https://github.com/TeamSOBITS/sobit_mini.git)を学びましょう．
+> SOBIT MINIの動作方法になれるため，[example](https://github.com/TeamSOBITS/sobit_mini/tree/noetic-devel/sobit_mini_library/example)フォルダを確認し，それぞれのサンプルファイルから[動作関数](https://github.com/TeamSOBITS/sobit_mini.git)を学びましょう．
 
 <p align="right">(<a href="#readme-top">上に戻る</a>)</p>
 
