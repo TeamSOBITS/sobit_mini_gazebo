@@ -1,0 +1,58 @@
+<launch>
+
+  <!-- these are the arguments you can pass this launch file, for example paused:=true -->
+  <arg name="model" default="$(find sobit_mini_gazebo)/robots/sobit_mini.urdf.xacro"/>
+  <arg name="paused" default="False"/>
+  <arg name="use_sim_time" default="True"/>
+  <arg name="gui" default="True"/>
+  <arg name="headless" default="False"/>
+  <arg name="debug" default="False"/>
+  <arg name="visualize" default="True"/> <!--visualization of lidar-->
+  <arg name="rviz" default="False"/>
+
+  <!-- We resume the logic in empty_world.launch, changing only the name of the world to be launched -->
+  <include file="$(find gazebo_ros)/launch/empty_world.launch">
+    <!-- <arg name="world_name" value="$(find turtlebot3_gazebo)/worlds/turtlebot3_stage_1.world"/> -->
+    <arg name="paused" value="false"/>
+    <arg name="use_sim_time" value="true"/>
+    <arg name="gui" value="true"/>
+    <arg name="headless" value="false"/>
+    <arg name="debug" value="false"/>
+  </include>
+
+  <rosparam command="load" file="$(find sobit_mini_library)/config/sobit_mini_pose.yaml"/>
+
+  <!-- Load the URDF into the ROS Parameter Server -->
+  <param name="robot_description"
+		 command="$(find xacro)/xacro '$(arg model)' visualize:=$(arg visualize)" />
+
+  <!-- Run a python script to the send a service call to gazebo_ros to spawn a URDF robot -->
+  <node name="urdf_spawner" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen"
+  		args="-urdf -model sobit_mini -param robot_description"/>
+  
+  <!--load controllers into the ROS parameter server-->
+  <rosparam file = "$(find sobit_mini_gazebo)/config/controllers.yaml" command = "load"/>
+
+  <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" respawn="false" output="screen">
+    <param name="publish_frequency" type="double" value="30.0"/>
+  </node>
+
+  <!-- Velocity muxer -->
+  <node pkg="nodelet" type="nodelet" name="mobile_base_nodelet_manager" args="manager"/>
+  <node pkg="nodelet" type="nodelet" name="cmd_vel_mux"
+        args="load yocs_cmd_vel_mux/CmdVelMuxNodelet mobile_base_nodelet_manager">
+    <param name="yaml_cfg_file" value="$(find turtlebot_bringup)/param/mux.yaml"/>
+    <remap from="cmd_vel_mux/output" to="mobile_base/commands/velocity"/>
+  </node>
+
+  <!--controller creation-->
+  <node name = "controller_spawner" pkg = "controller_manager" type = "spawner" args = "body_trajectory_controller head_trajectory_controller r_arm_trajectory_controller l_arm_trajectory_controller "/>
+
+  <!-- ros_control motoman launch file -->
+  <group if="$(arg rviz)">
+    <node name="rviz" pkg="rviz" type="rviz" args="-d $(find sobit_mini_gazebo)/rviz/display.rviz"/>
+  </group>
+
+  <node pkg="sobit_mini_gazebo" name="initial_pose" type="pose.py" />
+  
+</launch>
