@@ -101,7 +101,7 @@ SOBITSが開発した双腕型モバイルマニピュレータ（SOBIT MINI）�
 <!-- 実行・操作方法 -->
 ## 実行・操作方法
 
-1. [sobit_mini_gazebo.launch](sobit_mini_gazebo/sobit_mini_gazebo/launch/sobit_mini_gazebo.launch)というlaunchファイルを起動します．
+1. [sobit_mini_gazebo.launch](sobit_mini_gazebo/launch/sobit_mini_gazebo.launch)というlaunchファイルを起動します．
    ```sh
    $ roslaunch sobit_mini_gazebo sobit_mini_gazebo.launch
    ```
@@ -132,7 +132,7 @@ $ roslaunch sobit_mini_gazebo display.launch
 
 <!-- Gazebo Worldの変更 -->
 ## Gazebo Worldの変更
-[sobit_mini_gazebo.launch](sobit_mini_gazebo/sobit_mini_gazebo/launch/sobit_mini_gazebo.launch)の中にあるworld_nameのパスを変更してください
+[sobit_mini_gazebo.launch](sobit_mini_gazebo/launch/sobit_mini_gazebo.launch)の中にあるworld_nameのパスを変更してください
 ```
 <arg name="world_name" value="$(find your_file_path)/file.(world or sdf)"/>
 ```
