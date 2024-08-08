@@ -8,7 +8,7 @@
 [![Issues][issues-shield]][issues-url]
 [![License][license-shield]][license-url]
 
-# SOBIT MINI
+# SOBIT MINI Gazebo
 
 <!--目次-->
 <details>
@@ -38,16 +38,20 @@
 
 <!--レポジトリの概要-->
 ## 概要
-![](sobit_mini/img/sobit_mini_gazebo.png)
+![](img/sobit_mini_gazebo.png)
 
-SOBITSが開発した双腕型モバイルマニピュレータ（SOBIT MINI）をgazeboで動かすためのライブラリです．
+SOBITSが開発した双腕型モバイルマニピュレータ（SOBIT MINI）をGazeboで動かすためのです．
 
 <p align="right">(<a href="#readme-top">上に戻る</a>)</p>
+
 
 <!-- セットアップ -->
 ## セットアップ
 
 ここで，本レポジトリのセットアップ方法について説明します．
+
+<p align="right">(<a href="#readme-top">上に戻る</a>)</p>
+
 
 ### 環境条件
 
@@ -62,13 +66,13 @@ SOBITSが開発した双腕型モバイルマニピュレータ（SOBIT MINI）�
 > [!NOTE]
 > `Ubuntu`や`ROS`のインストール方法に関しては，[SOBIT Manual](https://github.com/TeamSOBITS/sobits_manual#%E9%96%8B%E7%99%BA%E7%92%B0%E5%A2%83%E3%81%AB%E3%81%A4%E3%81%84%E3%81%A6)に参照してください．
 
-<!-- - OS: Ubuntu 20.04 
-- ROS distribution: noetic Kame -->
+<p align="right">(<a href="#readme-top">上に戻る</a>)</p>
+
 
 ### インストール方法
 
-> [!WARNING]
-> このレポジトリは[sobit_mini](https://github.com/TeamSOBITS/sobit_mini.git)がインストールされていることが前提のものになっています．
+> [!NOTE]
+> 本リポジトリを使用する際に，[sobit_mini](https://github.com/TeamSOBITS/sobit_mini)というパッケージがインストールされているか確認してください．
 
 1. ROSの`src`フォルダに移動します．
    ```sh
@@ -76,13 +80,13 @@ SOBITSが開発した双腕型モバイルマニピュレータ（SOBIT MINI）�
    # もしくは，"cd ~/catkin_ws/"へ移動．
    $ cd src/
    ```
-2. [sobit_mini](https://github.com/TeamSOBITS/sobit_mini.git)をcloneします．
+2. 本レポジトリをcloneします．
    ```sh
-   $ git clone https://github.com/TeamSOBITS/sobit_mini
+   $ git clone https://github.com/TeamSOBITS/sobit_mini_gazebo
    ```
 3. レポジトリの中へ移動します．
    ```sh
-   $ cd sobit_mini/
+   $ cd sobit_mini_gazebo/
    ```
 4. 依存パッケージをインストールします．
    ```sh
@@ -101,7 +105,7 @@ SOBITSが開発した双腕型モバイルマニピュレータ（SOBIT MINI）�
 <!-- 実行・操作方法 -->
 ## 実行・操作方法
 
-1. [sobit_mini_gazebo.launch](sobit_mini_gazebo/launch/sobit_mini_gazebo.launch)というlaunchファイルを起動します．
+1. [sobit_mini_gazebo.launch](launch/sobit_mini_gazebo.launch)というlaunchファイルを起動します．
    ```sh
    $ roslaunch sobit_mini_gazebo sobit_mini_gazebo.launch
    ```
@@ -125,15 +129,15 @@ $ roslaunch sobit_mini_gazebo display.launch
 
 正常に動作した場合は，次のようにRvizが表示されます．
 
-![SOBIT MINI Display with Rviz](sobit_mini/img/sobit_mini_display.png)
+![SOBIT MINI Display with Rviz](img/sobit_mini_display.png)
 
 <p align="right">(<a href="#readme-top">上に戻る</a>)</p>
 
 
 <!-- Gazebo Worldの変更 -->
 ## Gazebo Worldの変更
-[sobit_mini_gazebo.launch](sobit_mini_gazebo/launch/sobit_mini_gazebo.launch)の中にあるworld_nameのパスを変更してください
-```
+[sobit_mini_gazebo.launch](sobit_mini_gazebo/launch/sobit_mini_gazebo.launch)の中にある`world_name`のパスを変更してください
+```xml
 <arg name="world_name" value="$(find your_file_path)/file.(world or sdf)"/>
 ```
 
@@ -156,6 +160,7 @@ $ roslaunch sobit_mini_gazebo display.launch
 
 * [ROS Noetic](http://wiki.ros.org/noetic)
 * [ROS Control](http://wiki.ros.org/ros_control)
+* [SOBIT MINI](https://github.com/TeamSOBITS/sobit_mini)
 
 
 <!-- MARKDOWN LINKS & IMAGES -->
@@ -170,26 +175,3 @@ $ roslaunch sobit_mini_gazebo display.launch
 [issues-url]: https://github.com/TeamSOBITS/sobit_mini_gazebo/issues
 [license-shield]: https://img.shields.io/github/license/TeamSOBITS/sobit_mini_gazebo.svg?style=for-the-badge
 [license-url]: LICENSE
-
-
-
-<!-- まず，以下のコマンドを入力して，SOBIT MINIを動かすための環境設定を行います．
-この設定は，初回のみに行う作業ですので，1度行ったことのある人は飛ばしてください．
-
-※ 開発するPCで，SOBIT EDUやSOBIT PROを動かしたことがある場合も，この作業は必要ありません．
-
-```bash:
-$ cd sobit_mini
-$ bash sobit_setup.sh
-```
-
-以下のコマンドを入力することで，SOBIT MINIを起動することができます．
-これにより，SOBIT MINIのモータやRGB-Dカメラ，測域センサ(Lidar)などのデバイスが起動します．
-また，それと同時にRvizも起動します．
-
-:warning: ロボットをコンテナで動かす場合，動かしたいデバイスをホストPCと接続してから，コンテナを立ち上げてください．
-コンテナを立ち上げてからデバイスとの接続を行う場合，ロボットが動かない場合があります．
-
-```bash:
-$ roslaunch sobit_mini_bringup minimal.launch
-``` -->
