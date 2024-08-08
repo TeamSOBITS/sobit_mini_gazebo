@@ -1,13 +1,13 @@
 #!/bin/bash
 
-echo "╔══╣ Setup: SOBIT MINI GAZEBO (STARTING) ╠══╗"
+echo "╔══╣ Setup: SOBIT MINI Gazebo (STARTING) ╠══╗"
 
 
 # Keep track of the current directory
 DIR=`pwd`
 cd ..
 
-# git cloneしたいTeamSOBITSのROSパッケージを以下に記述
+# Download required packages
 ros_packages=(
     "roboticsgroup_upatras_gazebo_plugins" \
     "realsense_gazebo_plugin"
@@ -26,7 +26,17 @@ for ((i = 0; i < ${#ros_packages[@]}; i++)) {
     fi
 }
 
+# Install required packages
+sudo apt-get update
 sudo apt-get install -y \
-    ros-${ROS_DISTRO}-turtlebot3-gazebo
+    ros-${ROS_DISTRO}-gazebo-ros-pkgs \
+    ros-${ROS_DISTRO}-gazebo-ros-control \
+    ros-${ROS_DISTRO}-gazebo-plugins \
+    ros-${ROS_DISTRO}-gazebo-ros \
+    ros-${ROS_DISTRO}-gazebo-dev
 
-echo "╚══╣ Setup: SOBIT MINI GAZEBO (FINISHED) ╠══╝"
+# Return to the original directory
+cd $DIR
+
+
+echo "╚══╣ Setup: SOBIT MINI Gazebo (FINISHED) ╠══╝"
